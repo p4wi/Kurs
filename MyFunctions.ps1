@@ -105,3 +105,20 @@ function Remove-CourseUser {
         Write-Output "Did not remove user $($RemoveUser.Name)"
     }
 }
+
+function Confirm-CourseUserId{
+    [cmdletBinding()]
+    Param(
+
+    )
+
+    $AllUsers = GetUserData
+
+    foreach ($User in $AllUsers){
+        if($User.Id -notmatch '^\d+$') {
+            Write-output "User $($User.Name) har mismatching id: $($User.Id)"
+        }
+    }
+
+}
+
