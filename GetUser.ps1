@@ -47,3 +47,9 @@ foreach ($User in $MyUserList) {
     Write-Output "$($User.Name) is $($User.Age) this year."
 }
 Set-Content -Value $MyUserList -Path $MyUserListFile -WhatIf
+
+
+function GetUserData {
+Write-Output "hello world"
+
+}
