@@ -4,8 +4,19 @@
 
 function GetUserData {
     $MyUserListFile = "$PSScriptRoot\MyLabFile.csv"
-    $MyUserList = Get-Content -Path $MyUserListFile | ConvertFrom-Csv
-    $MyUserList
+    
+    try {
+        $MyUserList = Get-Content -Path $MyUserListFile | ConvertFrom-Csv
+    }
+    catch [System.Management.Automation.ParentContainsErrorRecordException]{
+        throw "My databasefile seems to be missing. Path was $MyUserListFile. `nErrorMessage was: $($_)"
+    }
+    catch{
+        throw "Unknown error: $_"
+    }
+
+
+$MyUserList
 }
 #
 # Using code from the `GetUser.ps1` file Create a function named `Get-CourseUser` that:
@@ -116,7 +127,7 @@ function Confirm-CourseUserId{
 
     foreach ($User in $AllUsers){
         if($User.Id -notmatch '^\d+$') {
-            Write-output "User $($User.Name) har mismatching id: $($User.Id)"
+            Write-Error "User $($User.Name) har mismatching id: $($User.Id)" 
         }
     }
 
